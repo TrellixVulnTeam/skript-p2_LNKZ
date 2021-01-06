@@ -22,7 +22,7 @@ def notes_edit(request, id):
         form = NotesForm(request.POST)
 
         if form.is_valid():
-            note = Note.objects.get(id=id)
+            note = Note.objects.filter(owner=request.user).get(id=id)
             note.title = form.cleaned_data['title']
             note.pinned = form.cleaned_data['pinned']
             note.content = form.cleaned_data['content']
