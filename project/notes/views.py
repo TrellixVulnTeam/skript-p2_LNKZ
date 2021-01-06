@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Note, Label
-from .forms import NotesForm
+from .forms import NotesForm, LabelForm
 from django.contrib import messages
 import logging
 from django.contrib.auth.decorators import login_required, permission_required
@@ -34,7 +34,7 @@ def notes_edit(request, id):
         else:
             return render(request, 'notes/edit.html', {'form': form, 'id': id})
     else:
-        note = Note.objects.get(id=id)
+        note = Note.objects.filter(owner=request.user).get(id=id)
         form = NotesForm(instance=note)
         form.fields['label'].queryset = Label.objects.filter(owner_id=request.user.id)
         return render(request, 'notes/edit.html', {'form': form, 'id': id})
@@ -69,3 +69,51 @@ def notes_create(request):
         form = NotesForm()
         form.fields['label'].queryset = Label.objects.filter(owner_id=request.user.id)
         return render(request, 'notes/create.html', {'form': form})
+
+
+@login_required
+def labels_create(request):
+    if request.method == 'POST':
+        form = LabelForm(request.POST)
+        if form.is_valid():
+            label = Label()
+            label.title = form.cleaned_data['title']
+            label.color = form.cleaned_data['color']
+            label.owner = request.user
+            label.save()
+            messages.success(request, 'Label created successfully')
+            return redirect('notes:index')
+        else:
+            return render(request, 'labels/create.html', {'form': form})
+    else:
+        form = LabelForm()
+        return render(request, 'labels/create.html', {'form': form})
+
+
+@login_required
+def labels_edit(request, id):
+    if request.method == 'POST':
+        form = LabelForm(request.POST)
+
+        if form.is_valid():
+            label = Label.objects.filter(owner=request.user).get(id=id)
+            label.title = form.cleaned_data['title']
+            label.color = form.cleaned_data['color']
+            label.save()
+            messages.success(request, 'Label edited successfully')
+            return redirect('notes:index')
+        else:
+            return render(request, 'labels/edit.html', {'form': form, 'id': id})
+    else:
+        label = Label.objects.filter(owner=request.user).get(id=id)
+        form = LabelForm(instance=label)
+        return render(request, 'labels/edit.html', {'form': form, 'id': id})
+
+
+@login_required
+def labels_delete(request, id):
+    if request.method == 'POST':
+        label = Label.objects.filter(owner=request.user).get(id=id)
+        label.delete()
+        messages.success(request, 'Label deleted successfully')
+    return redirect('notes:index')
