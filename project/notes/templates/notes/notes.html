@@ -28,7 +28,7 @@
                             {{note.content}}
                         </p>
                         <p>
-                            <a href=""><span class="badge bg-{{note.label.color}}">{{note.label.title}}</span></a>
+                            <a href="{% url 'notes:filter' label_id=note.label.id  %}"><span class="badge bg-{{note.label.color}}">{{note.label.title}}</span></a>
                         </p>
                     </div>
                 </div>

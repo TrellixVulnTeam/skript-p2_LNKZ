@@ -9,8 +9,15 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def index(request):
-    tmp_notes = Note.objects.filter(owner=request.user)
+def index(request, label_id=None):
+    if label_id:
+        current_label = Label.objects.get(id=label_id)
+        if current_label:
+            tmp_notes = Note.objects.filter(owner=request.user).filter(label_id=current_label.id)
+        else:
+            tmp_notes = Note.objects.filter(owner=request.user)
+    else:
+        tmp_notes = Note.objects.filter(owner=request.user)
     labels = Label.objects.filter(owner=request.user)
     pinned = [x for x in tmp_notes if x.pinned]
     notes = set(tmp_notes) - set(pinned)

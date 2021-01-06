@@ -8,7 +8,7 @@
             {% for label in labels %}
             <div class="col-md-1">
 
-                        <span class="badge bg-{{label.color}}"><a href="" class="text-decoration-none text-white">{{label.title}}  </a>
+                        <span class="badge bg-{{label.color}}"><a href="{% url 'notes:filter' label_id=label.id  %}" class="text-decoration-none text-white">{{label.title}}  </a>
                             <a href="{% url 'notes:labels_edit' id=label.id %}" class="text-decoration-none text-white">[x]</a></span>
 
             </div>
