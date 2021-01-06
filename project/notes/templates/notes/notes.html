@@ -3,7 +3,6 @@
         <p class="font-weight-bold">
             {{title}}
         </p>
-        {% if labels.count > 0 %}
         <div class="row">
             {% for note in notes %}
             <div class="col-md-3">
@@ -38,6 +37,5 @@
             </div>
             {% endfor %}
         </div>
-        {% endif %}
     </div>
 </div>
