@@ -1,4 +1,5 @@
-from django.forms import ModelForm, models
+from django.forms import ModelForm
+from django import forms
 from .models import Note, Label
 
 
@@ -12,3 +13,4 @@ class NotesForm(ModelForm):
     class Meta:
         model = Note
         fields = ['title', 'content', 'label', 'pinned']
+

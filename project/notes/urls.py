@@ -12,6 +12,7 @@ urlpatterns = [
     path('labels/<int:id>', views.labels_edit, name='labels_edit'),
     path('labels/delete/<int:id>', views.labels_delete, name='labels_delete'),
     path('labels/create', views.labels_create, name='labels_create'),
+    path('register', views.register, name='register')
 
 
 ]

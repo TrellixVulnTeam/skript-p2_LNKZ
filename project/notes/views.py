@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Note, Label
 from .forms import NotesForm, LabelForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 from django.contrib import messages
 import logging
 from django.contrib.auth.decorators import login_required, permission_required
@@ -124,3 +126,18 @@ def labels_delete(request, id):
         label.delete()
         messages.success(request, 'Label deleted successfully')
     return redirect('notes:index')
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            raw_password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('notes:index')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
