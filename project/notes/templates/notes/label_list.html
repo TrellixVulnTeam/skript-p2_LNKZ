@@ -1,0 +1,21 @@
+<div class="row mt-3">
+    <div class="col">
+        <h4>Labels</h4>
+        {% if labels.count > 0 %}
+        <div class="row">
+            {% for label in labels %}
+                <div class="col">
+                    <a href="">
+                        <span class="badge bg-primary">{{label.title}}</span>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>
+            You don't have any labels
+        </p>
+        {% endif %}
+        <hr>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="row mt-3">
+    <div class="col">
+        <p class="font-weight-bold">
+            {{title}}
+        </p>
+        {% if labels.count > 0 %}
+        <div class="row">
+            {% for note in notes %}
+                <div class="col-md-3">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>
+                                {{note.title}}
+                            </h4>
+                            <p>
+                                {{note.content}}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>

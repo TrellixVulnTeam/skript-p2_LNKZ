@@ -1,11 +1,13 @@
 {% extends 'master.html' %}
 
 {% block content %}
-<div class="row">
+
+{% include 'notes/label_list.html' with labels=labels %}
+
+<div class="row mt-4">
     <div class="col">
-       <h1>
-           Hello
-       </h1>
+        {% include 'notes/notes.html' with notes=pinned title='Pinned' %}
+        {% include 'notes/notes.html' with notes=notes title='Other notes' %}
     </div>
 </div>
 {% endblock %}
