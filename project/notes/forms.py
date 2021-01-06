@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, BooleanField
 from .models import Note, Label
 
 
@@ -11,4 +11,4 @@ class LabelForm(ModelForm):
 class NotesForm(ModelForm):
     class Meta:
         model = Note
-        fields = ['title', 'content', 'label']
+        fields = ['title', 'content', 'label', 'pinned']

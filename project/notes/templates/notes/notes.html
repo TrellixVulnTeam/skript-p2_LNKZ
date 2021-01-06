@@ -6,20 +6,34 @@
         {% if labels.count > 0 %}
         <div class="row">
             {% for note in notes %}
-                <div class="col-md-3">
+            <div class="col-md-3">
 
-                    <div class="card">
-                        <div class="card-body">
-                            <h4>
-                                {{note.title}}
-                            </h4>
-                            <p>
-                                {{note.content}}
-                            </p>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9">
+                                <h4>
+                                    {{note.title}}
+                                </h4>
+                            </div>
+                            <div class="col-3">
+                                <p class="text-end">
+                                    <a href="{% url 'notes:edit' note.id %}" class="text-decoration-none text-secondary ">
+                                        Edit
+                                    </a>
+                                </p>
+                            </div>
                         </div>
+                        <p>
+                            {{note.content}}
+                        </p>
+                        <p>
+                            <a href=""><span class="badge bg-{{note.label.color}}">{{note.label.title}}</span></a>
+                        </p>
                     </div>
-
                 </div>
+
+            </div>
             {% endfor %}
         </div>
         {% endif %}
