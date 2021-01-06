@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Note, Label
 from .forms import NotesForm
+from django.contrib import messages
 import logging
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -28,6 +29,7 @@ def notes_edit(request, id):
             note.content = form.cleaned_data['content']
             note.label = form.cleaned_data['label']
             note.save()
+            messages.success(request, 'Note edited successfully')
             return redirect('notes:index')
         else:
             return render(request, 'notes/edit.html', {'form': form, 'id': id})
@@ -35,3 +37,12 @@ def notes_edit(request, id):
         note = Note.objects.get(id=id)
         form = NotesForm(instance=note)
         return render(request, 'notes/edit.html', {'form': form, 'id': id})
+
+
+@login_required
+def notes_delete(request, id):
+    if request.method == 'POST':
+        note = Note.objects.filter(owner=request.user).get(id=id)
+        note.delete()
+        messages.success(request, 'Note deleted successfully')
+    return redirect('notes:index')
