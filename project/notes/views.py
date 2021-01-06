@@ -36,6 +36,7 @@ def notes_edit(request, id):
     else:
         note = Note.objects.get(id=id)
         form = NotesForm(instance=note)
+        form.fields['label'].queryset = Label.objects.filter(owner_id=request.user.id)
         return render(request, 'notes/edit.html', {'form': form, 'id': id})
 
 
