@@ -28,7 +28,9 @@
                             {{note.content}}
                         </p>
                         <p>
+                            {% if note.label %}
                             <a href="{% url 'notes:filter' label_id=note.label.id  %}"><span class="badge bg-{{note.label.color}}">{{note.label.title}}</span></a>
+                            {% endif %}
                         </p>
                     </div>
                 </div>
