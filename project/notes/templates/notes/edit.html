@@ -69,6 +69,11 @@ Edit note
 
         </form>
 
+        <form method="post" action="{% url 'notes:delete' id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete note</button>
+        </form>
+
     </div>
 </div>
 
