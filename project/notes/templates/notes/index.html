@@ -3,7 +3,11 @@
 {% block content %}
 
 {% include 'notes/label_list.html' with labels=labels %}
-
+<div class="row">
+    <div class="col">
+        <a href="{% url 'notes:create' %}" class="btn btn-lg btn-primary">Create note</a>
+    </div>
+</div>
 <div class="row mt-4">
     <div class="col">
         {% include 'notes/notes.html' with notes=pinned title='Pinned' %}

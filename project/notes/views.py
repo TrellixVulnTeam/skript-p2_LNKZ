@@ -46,3 +46,25 @@ def notes_delete(request, id):
         note.delete()
         messages.success(request, 'Note deleted successfully')
     return redirect('notes:index')
+
+
+@login_required
+def notes_create(request):
+    if request.method == 'POST':
+        form = NotesForm(request.POST)
+        if form.is_valid():
+            note = Note()
+            note.title = form.cleaned_data['title']
+            note.pinned = form.cleaned_data['pinned']
+            note.content = form.cleaned_data['content']
+            note.label = form.cleaned_data['label']
+            note.owner = request.user
+            note.save()
+            messages.success(request, 'Note created successfully')
+            return redirect('notes:index')
+        else:
+            return render(request, 'notes/create.html', {'form': form })
+    else:
+        form = NotesForm()
+        form.fields['label'].queryset = Label.objects.filter(owner_id=request.user.id)
+        return render(request, 'notes/create.html', {'form': form})
